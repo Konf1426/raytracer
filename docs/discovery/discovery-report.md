@@ -4,15 +4,13 @@
 **Author:** Melvin Becue  
 **GitHub repository:** https://github.com/Konf1426/raytracer  
 **Date:** November 16, 2026  
-**Milestone:** m0 — Discovery and Research
+**Milestone:** m0: Discovery and Research
 
----
 
 ## 1. Problem statement
 
 A film studio in Los Angeles needs a reliable, maintainable, extensible and high-performance rendering system because its existing software is difficult to understand, debug and maintain, putting the production of an entire film at risk.
 
----
 
 ## 2. Client needs analysis
 
@@ -24,9 +22,9 @@ The initial project brief explains that the studio needs a ray tracer written in
 
 The brief establishes the general objectives but does not define measurable performance targets or detailed production constraints. No verified client interview is available for this analysis; the conclusions below distinguish the brief's requirements from proposed engineering practices and topics for client validation.
 
-**Client response:** Not available — pending confirmation from the client interview.
+**Client response:** Not available: pending confirmation from the client interview.
 
-### Theme 1 — Current workflow and existing problems
+### Theme 1: Current workflow and existing problems
 
 **Need:** Understand how the studio currently produces rendered images and identify the main difficulties experienced with its rendering software.
 
@@ -34,7 +32,7 @@ The project brief indicates that previously generated rendering tools became dif
 
 **My conclusion:** Before proposing a new architecture, I need to understand which parts of the existing workflow cause the most problems. Reliability and maintainability are important objectives, but the specific failures and their consequences remain to be confirmed.
 
-### Theme 2 — Performance and rendering time
+### Theme 2: Performance and rendering time
 
 **Need:** Identify measurable performance requirements for rendering individual frames and complete film sequences.
 
@@ -46,7 +44,7 @@ For example, a 90-minute film at 24 frames per second contains 129,600 frames. I
 
 This calculation is an illustrative example, not a confirmed requirement from the client.
 
-### Theme 3 — Reliability and maintainability
+### Theme 3: Reliability and maintainability
 
 **Need:** Understand what the studio considers reliable software and which engineering practices are necessary to maintain the renderer over time.
 
@@ -54,7 +52,7 @@ This calculation is an illustrative example, not a confirmed requirement from th
 
 These are proposed engineering practices based on the project brief, not additional requirements confirmed by the client.
 
-### Theme 4 — Collaboration and open-source contributions
+### Theme 4: Collaboration and open-source contributions
 
 **Need:** Understand how the studio expects external contributors and partner studios to participate in the project.
 
@@ -64,7 +62,7 @@ The project brief explicitly mentions that the software should be open to contri
 
 The contribution model and governance rules still need confirmation.
 
-### Theme 5 — Features and project priorities
+### Theme 5: Features and project priorities
 
 **Need:** Identify which capabilities are essential for the first usable version of the renderer and which can be developed later.
 
@@ -72,7 +70,7 @@ The contribution model and governance rules still need confirmation.
 
 The actual priorities must be based on the client's answers rather than assumptions.
 
-### Open questions — Client validation
+### Open questions: Client validation
 
 The following questions define the information needed to turn the brief's objectives into measurable acceptance criteria:
 
@@ -91,21 +89,20 @@ The following questions define the information needed to turn the brief's object
 
 **Important distinction:** The initial project brief provides the general objectives, but these unanswered questions must not be presented as confirmed client requirements.
 
----
 
-## 3. Supplementary user research — Simulated User Personas
+## 3. Supplementary user research: Simulated User Personas
 
 ### Scope and status
 
-To complement the initial project research, three fictional male student developer personas, aged 22 to 24, were created to explore possible difficulties when using 3D rendering software.
+To complement the initial project research, three fictional male student developer personas were created to explore possible difficulties when using 3D rendering software.
 
 **Method:** This is a persona simulation, not an interview study. Each fictional profile has five scripted answers, giving 15 simulated answers in total. No interviews were conducted for this exercise, and the answers below are fictional statements rather than collected testimony. They do not represent the film studio's responses or confirmed requirements.
 
 ### Persona comparison
 
 | Criterion | Sébastien | Nelson | Patrice |
-|---|---|---|---|
-| Age and background | 22 — Full Stack Developer Student | 23 — Creative Web Development Student | 24 — Backend Development Student |
+|-|-|-|-|
+| Background | Full Stack Developer Student | Creative Web Development Student | Backend Development Student |
 | Software and experience | Blender Cycles | Three.js, Blender Eevee | Blender Cycles, ray tracing experiments in C++ |
 | Rendering time described in the profile | 1–3 minutes per frame | 20–60 seconds per detailed frame exported from Blender | 2–5 minutes per complex frame on CPU |
 | Main difficulty | Slow rendering and occasional freezes | Balancing image quality and performance | High CPU and memory consumption; identifying bottlenecks |
@@ -114,48 +111,48 @@ To complement the initial project research, three fictional male student develop
 
 The rendering times describe different workloads and hardware contexts. They are illustrative values, not comparable benchmarks or performance targets for the studio.
 
-### Sébastien, 22 — Full Stack Developer Student
+### Sébastien: Full Stack Developer Student
 
 **Fictional profile:** A Full Stack development student who occasionally uses Blender for personal projects on a laptop with limited hardware resources.
 
 | Question topic | Simulated answer |
-|---|---|
-| Q1 — Biggest problems | Rendering is often too slow, especially on my laptop. Sometimes the software freezes when I work with complex scenes. |
-| Q2 — Rendering time | Usually around 1 to 3 minutes per frame, depending on the complexity. |
-| Q3 — Render failures | I usually restart the render and lose time. Sometimes I have to reduce the quality to make it work. |
-| Q4 — Current software | I mainly use Blender with Cycles. |
-| Q5 — MVP features | Faster rendering, an easy-to-use interface, and a real-time preview. |
+|-|-|
+| Q1: Biggest problems | Rendering is often too slow, especially on my laptop. Sometimes the software freezes when I work with complex scenes. |
+| Q2: Rendering time | Usually around 1 to 3 minutes per frame, depending on the complexity. |
+| Q3: Render failures | I usually restart the render and lose time. Sometimes I have to reduce the quality to make it work. |
+| Q4: Current software | I mainly use Blender with Cycles. |
+| Q5: MVP features | Faster rendering, an easy-to-use interface, and a real-time preview. |
 
-### Nelson, 23 — Creative Web Development Student
+### Nelson: Creative Web Development Student
 
 **Fictional profile:** A creative web development student who regularly works with Three.js and is interested in 3D animation and interactive experiences.
 
 | Question topic | Simulated answer |
-|---|---|
-| Q1 — Biggest problems | It's hard to get good visual quality without losing performance. I also spend too much time adjusting rendering settings. |
-| Q2 — Rendering time | Around 20 to 60 seconds for a detailed frame when exporting from Blender. |
-| Q3 — Render failures | I check the settings and try again. It can be frustrating because I don't always understand what caused the error. |
-| Q4 — Current software | I use Three.js and Blender Eevee. |
-| Q5 — MVP features | Real-time preview, customizable quality settings, and simple lighting controls. |
+|-|-|
+| Q1: Biggest problems | It's hard to get good visual quality without losing performance. I also spend too much time adjusting rendering settings. |
+| Q2: Rendering time | Around 20 to 60 seconds for a detailed frame when exporting from Blender. |
+| Q3: Render failures | I check the settings and try again. It can be frustrating because I don't always understand what caused the error. |
+| Q4: Current software | I use Three.js and Blender Eevee. |
+| Q5: MVP features | Real-time preview, customizable quality settings, and simple lighting controls. |
 
-### Patrice, 24 — Backend Development Student
+### Patrice: Backend Development Student
 
 **Fictional profile:** A Backend development student interested in algorithms who understands ray tracing principles and has experimented with rendering through code.
 
 | Question topic | Simulated answer |
-|---|---|
-| Q1 — Biggest problems | Rendering can use too much CPU and memory. It's also difficult to identify performance bottlenecks in complex scenes. |
-| Q2 — Rendering time | Between 2 and 5 minutes per frame for complex scenes using CPU rendering. |
-| Q3 — Render failures | I check the logs, try to identify the problem, and restart the process. It can take a lot of time. |
-| Q4 — Current software | I use Blender Cycles and I've experimented with a basic ray tracer in C++. |
-| Q5 — MVP features | GPU acceleration, detailed error messages, performance monitoring, and adjustable rendering settings. |
+|-|-|
+| Q1: Biggest problems | Rendering can use too much CPU and memory. It's also difficult to identify performance bottlenecks in complex scenes. |
+| Q2: Rendering time | Between 2 and 5 minutes per frame for complex scenes using CPU rendering. |
+| Q3: Render failures | I check the logs, try to identify the problem, and restart the process. It can take a lot of time. |
+| Q4: Current software | I use Blender Cycles and I've experimented with a basic ray tracer in C++. |
+| Q5: MVP features | GPU acceleration, detailed error messages, performance monitoring, and adjustable rendering settings. |
 
 ### Cross-persona findings
 
 The profiles suggest several recurring needs to investigate:
 
 | Identified need | Evidence in the profiles | Potential implication |
-|---|---|---|
+|-|-|-|
 | Rendering performance | All three describe performance limitations. | Measure rendering time under documented scene, quality and hardware conditions before optimising. |
 | Reliability and error visibility | Sébastien restarts failed renders; Nelson and Patrice spend time investigating errors. | Consider clear error messages and ways to diagnose failures; investigate recovery needs with the client. |
 | Usability | Sébastien and Nelson want simpler interactions and settings. | Provide understandable configuration and useful feedback. |
@@ -174,7 +171,6 @@ The persona analysis suggests that performance, reliability, error visibility an
 
 More advanced features, including GPU acceleration and real-time previews, should be considered after discussing their relevance and priority with the official client. These are proposed priorities, not validated client requirements.
 
----
 
 ## 4. State of the art
 
@@ -191,7 +187,7 @@ This comparison focuses on licensing, pricing, rendering capabilities and the po
 ### Comparison of existing solutions
 
 | Solution | Maker | Licence | Pricing (checked November 16, 2026) | Capabilities | Sources |
-|---|---|---|---|---|---|
+|-|-|-|-|-|-|
 | Autodesk Arnold | Autodesk | Proprietary, commercial subscription | Subscription required; price depends on the offer and region. No numerical price confirmed in the consulted official page. | Monte Carlo ray tracing, global illumination, realistic materials and rendering for film, television and visual effects. | [Official Arnold website](https://www.autodesk.com/products/arnold/overview), [Subscription](https://www.autodesk.com/products/arnold/buy) |
 | Pixar RenderMan | Pixar Animation Studios | Proprietary, commercial; free non-commercial edition | $595 USD per commercial licence, with $250 USD annual maintenance. Free non-commercial edition available under its licence conditions. | Production rendering, physically based lighting, advanced materials, CPU/GPU rendering through XPU and integration into professional workflows. | [Official store](https://prod.renderman.pixar.com/store), [Licensing](https://prod.renderman.pixar.com/general-faq) |
 | Blender Cycles | Blender Foundation / Blender community | Apache License 2.0 for the Cycles engine; Blender itself uses GPL | Free to use, including commercial use; no licence purchase required. | Physically based path tracing, CPU/GPU rendering, global illumination, reflections, refractions and material systems. | [Blender licensing](https://www.blender.org/about/license/), [Cycles source code](https://github.com/blender/cycles) |
@@ -310,7 +306,6 @@ For the first development stage, I would prioritise a simple, understandable arc
 
 Performance improvements and advanced rendering capabilities should be introduced progressively, guided by tests, measurements and confirmed requirements.
 
----
 
 ## 5. What is ray tracing?
 
@@ -356,7 +351,7 @@ More advanced features can then be introduced progressively.
 
 **Getting started:**
 
-[Ray Tracing in One Weekend — Peter Shirley, Trevor David Black and Steve Hollasch](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+[Ray Tracing in One Weekend: Peter Shirley, Trevor David Black and Steve Hollasch](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 
 This tutorial explains how to build a small ray tracer using C++. It is particularly relevant because it introduces the fundamental mathematical and programming concepts through a practical implementation.
 
@@ -370,7 +365,6 @@ This book explains the mathematical and algorithmic foundations of physically ba
 
 It is more advanced than the introductory tutorial and will be useful when investigating more complex materials, light transport, acceleration structures and optimisation techniques.
 
----
 
 ## 6. What is C++?
 
@@ -413,7 +407,7 @@ My previous development experience is mainly based on PHP, JavaScript and web fr
 C++ shares some concepts with these languages, but its execution and memory-management models are different.
 
 | Concept | PHP / JavaScript | C++ |
-|---|---|---|
+|-|-|-|
 | Typing | JavaScript is dynamically typed; PHP is dynamically typed with optional type declarations. | Statically typed, with compile-time type checking. |
 | Execution | Usually executed through a runtime or interpreter/JIT environment. | Usually compiled into native machine code. |
 | Memory management | Automatic memory management is generally provided by the runtime. | Object lifetimes, ownership and resource management require more explicit design. |
@@ -503,7 +497,7 @@ The domain model describes how the concepts of the rendering problem are represe
 I would start with a small set of components representing the essential elements of a ray tracer.
 
 | Component | Responsibility |
-|---|---|
+|-|-|
 | `Vector3` | Represent three-dimensional vectors and mathematical operations. |
 | `Ray` | Store the origin and direction of a ray. |
 | `Camera` | Generate rays based on the camera position and image coordinates. |
@@ -565,7 +559,7 @@ It is suitable for a developer who already knows other programming languages but
 
 **Technical reference:**
 
-[cppreference — C++ language reference](https://en.cppreference.com/w/cpp/language)
+[cppreference: C++ language reference](https://en.cppreference.com/w/cpp/language)
 
 This documentation provides detailed information about C++ syntax, classes, templates, memory management, expressions and language features.
 
@@ -577,7 +571,6 @@ I would use it as a reference when implementing the renderer or investigating a 
 
 This resource is particularly interesting because it combines C++ development with the exact rendering concepts required for this project.
 
----
 
 ## Conclusion
 
@@ -595,7 +588,6 @@ I would begin with basic geometric objects, ray intersections and simple lightin
 
 This progressive approach should make it easier to understand the system, identify problems and improve performance without sacrificing code quality.
 
----
 
 ## References
 
@@ -603,45 +595,45 @@ All online sources below were consulted on November 16, 2026.
 
 ### Course documentation
 
-1. Glassworks Tech — *Technical Strategy as a Tech-Lead*  
+1. Glassworks Tech: *Technical Strategy as a Tech-Lead*  
    https://learn.glassworks.tech/raytracer/
 
-2. Glassworks Tech — *How to research this project*  
+2. Glassworks Tech: *How to research this project*  
    https://learn.glassworks.tech/raytracer/veille-perspective/how-to-research/
 
-3. Glassworks Tech — *Your discovery report*  
+3. Glassworks Tech: *Your discovery report*  
    https://learn.glassworks.tech/raytracer/veille-perspective/discovery-report/
 
 ### Rendering engines
 
-4. Autodesk — *Arnold*  
+4. Autodesk: *Arnold*  
    https://www.autodesk.com/products/arnold/buy
 
-5. Pixar — *RenderMan Store and Licensing*  
+5. Pixar: *RenderMan Store and Licensing*  
    https://prod.renderman.pixar.com/store
 
-6. Blender Foundation — *Blender License*  
+6. Blender Foundation: *Blender License*  
    https://www.blender.org/about/license/
 
-7. Blender — *Cycles Source Code*  
+7. Blender: *Cycles Source Code*  
    https://github.com/blender/cycles
 
-8. PBRT — *Physically Based Rendering*  
+8. PBRT: *Physically Based Rendering*  
    https://www.pbrt.org/
 
-9. PBRT — *PBRT-v4 Source Code*  
+9. PBRT: *PBRT-v4 Source Code*  
    https://github.com/mmp/pbrt-v4
 
 ### Ray tracing and C++
 
-10. Peter Shirley, Trevor David Black and Steve Hollasch — *Ray Tracing in One Weekend*  
+10. Peter Shirley, Trevor David Black and Steve Hollasch: *Ray Tracing in One Weekend*  
     https://raytracing.github.io/books/RayTracingInOneWeekend.html
 
-11. Matt Pharr, Wenzel Jakob and Greg Humphreys — *Physically Based Rendering: From Theory to Implementation*  
+11. Matt Pharr, Wenzel Jakob and Greg Humphreys: *Physically Based Rendering: From Theory to Implementation*  
     https://www.pbrt.org/
 
-12. LearnCpp — *Modern C++ Tutorial*  
+12. LearnCpp: *Modern C++ Tutorial*  
     https://www.learncpp.com/
 
-13. cppreference — *C++ Language Reference*  
+13. cppreference: *C++ Language Reference*  
     https://en.cppreference.com/w/cpp/language
