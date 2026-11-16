@@ -14,31 +14,23 @@ A film studio in Los Angeles needs a reliable, maintainable, extensible and high
 
 ---
 
-## 2. Client interview summary
+## 2. Client needs analysis
 
 ### Introduction
 
-The objective of the client interview is to understand the studio's real needs before making architectural or technical decisions.
+This section analyses the studio's needs as described in the project brief and identifies their implications for the renderer.
 
 The initial project brief explains that the studio needs a ray tracer written in C++, with readable code, automated tests, documentation and the possibility for partner studios to contribute to its development.
 
-However, this initial description is not enough to define measurable requirements. The interview should clarify the current workflow, the problems experienced by the studio, its performance expectations and the constraints that will influence development.
+The brief establishes the general objectives but does not define measurable performance targets or detailed production constraints. No verified client interview is available for this analysis; the conclusions below distinguish the brief's requirements from proposed engineering practices and topics for client validation.
 
-The following sections distinguish information supplied in the project brief from questions requiring confirmation during the client interview.
-
-**Interview status:** The actual interview transcript or notes have not yet been added to this report. The questions below are preparation and documentation prompts, not confirmed client quotations.
+**Client response:** Not available — pending confirmation from the client interview.
 
 ### Theme 1 — Current workflow and existing problems
 
 **Need:** Understand how the studio currently produces rendered images and identify the main difficulties experienced with its rendering software.
 
 The project brief indicates that previously generated rendering tools became difficult to maintain and unreliable. It does not explain which incidents occurred or how frequently they affected production.
-
-**Interview question to document:**
-
-> **Q (interviewer to be identified):** "Can you describe your current rendering workflow and the main problems you have experienced with your rendering tools?"
->
-> **A:** [Insert the client's actual answer from the interview.]
 
 **My conclusion:** Before proposing a new architecture, I need to understand which parts of the existing workflow cause the most problems. Reliability and maintainability are important objectives, but the specific failures and their consequences remain to be confirmed.
 
@@ -47,12 +39,6 @@ The project brief indicates that previously generated rendering tools became dif
 **Need:** Identify measurable performance requirements for rendering individual frames and complete film sequences.
 
 The client expects a renderer fast enough for film production, but the expression "fast enough" is not a measurable technical requirement.
-
-**Interview question to document:**
-
-> **Q (interviewer to be identified):** "What is the maximum acceptable rendering time for one frame, and what resolution do you normally use?"
->
-> **A:** [Insert the client's actual answer from the interview.]
 
 **My conclusion:** Rendering performance needs to be evaluated using measurable criteria, including frame resolution, rendering time, image quality and available computing resources.
 
@@ -64,27 +50,15 @@ This calculation is an illustrative example, not a confirmed requirement from th
 
 **Need:** Understand what the studio considers reliable software and which engineering practices are necessary to maintain the renderer over time.
 
-**Interview question to document:**
-
-> **Q (interviewer to be identified):** "What types of software failures have caused production problems, and how do your developers currently investigate and fix them?"
->
-> **A:** [Insert the client's actual answer from the interview.]
-
 **My conclusion:** A maintainable renderer should have understandable components, automated tests, useful error messages, documentation and a reproducible build process.
 
-These are proposed engineering practices based on the project brief, not additional requirements confirmed during the interview.
+These are proposed engineering practices based on the project brief, not additional requirements confirmed by the client.
 
 ### Theme 4 — Collaboration and open-source contributions
 
 **Need:** Understand how the studio expects external contributors and partner studios to participate in the project.
 
 The project brief explicitly mentions that the software should be open to contributions from partner studios.
-
-**Interview question to document:**
-
-> **Q (interviewer to be identified):** "How do you expect partner studios to contribute to the renderer, and who will be responsible for reviewing and accepting changes?"
->
-> **A:** [Insert the client's actual answer from the interview.]
 
 **My conclusion:** The project will probably benefit from a clear contribution process, code review, documented interfaces and automated checks. These mechanisms could make external contributions easier to integrate without compromising software quality.
 
@@ -94,29 +68,23 @@ The contribution model and governance rules still need confirmation.
 
 **Need:** Identify which capabilities are essential for the first usable version of the renderer and which can be developed later.
 
-**Interview question to document:**
-
-> **Q (interviewer to be identified):** "Which rendering features are essential for your first production use, and which features could be added in later versions?"
->
-> **A:** [Insert the client's actual answer from the interview.]
-
 **My conclusion:** Development should probably start with a small, testable rendering engine before introducing advanced features such as complex materials, indirect lighting, acceleration structures or distributed rendering.
 
 The actual priorities must be based on the client's answers rather than assumptions.
 
-### Open questions
+### Open questions — Client validation
 
-The following questions remain open until they are answered or supported by interview notes:
+The following questions define the information needed to turn the brief's objectives into measurable acceptance criteria:
 
-1. What rendering software does the studio currently use?
-2. What specific incidents motivated the development of a new renderer?
+1. What is the studio's current rendering workflow, and which software does it use?
+2. What specific incidents motivated the development of a new renderer, and how do developers investigate and fix these failures?
 3. What image resolutions and output formats are required?
 4. What is the maximum acceptable time to render one frame?
 5. How many frames must the system process within a given deadline?
 6. What hardware is available for rendering: CPU, GPU or render farm?
-7. Which lighting, geometry and material features are mandatory?
+7. Which lighting, geometry and material features are essential for the first usable version, and which can be added later?
 8. What reliability and testing standards are expected?
-9. How will partner studios contribute to the project?
+9. How will partner studios contribute to the project, and who will review and accept their changes?
 10. Who will make architectural decisions and approve contributions?
 11. What criteria will determine whether the first version is successful?
 12. Are there constraints involving existing tools, file formats or pipelines?
@@ -125,13 +93,13 @@ The following questions remain open until they are answered or supported by inte
 
 ---
 
-## 3. Supplementary user research — Student personas
+## 3. Supplementary user research — Simulated User Personas
 
 ### Scope and status
 
-To complement the initial project research, three student developer personas were considered to explore common difficulties when using 3D rendering software.
+To complement the initial project research, three fictional male student developer personas, aged 22 to 24, were created to explore possible difficulties when using 3D rendering software.
 
-These are illustrative profiles based on the supplied persona summaries. No interview transcripts or collection method have been provided, so they are treated as simulated user personas rather than verified student interviews. They should not be confused with the official client interview or used as confirmed requirements from the film studio.
+**Method:** This is a persona simulation, not an interview study. Each fictional profile has five scripted answers, giving 15 simulated answers in total. No interviews were conducted for this exercise, and the answers below are fictional statements rather than collected testimony. They do not represent the film studio's responses or confirmed requirements.
 
 ### Persona comparison
 
@@ -148,21 +116,39 @@ The rendering times describe different workloads and hardware contexts. They are
 
 ### Sébastien, 22 — Full Stack Developer Student
 
-Sébastien occasionally uses Blender Cycles on a laptop with limited hardware resources. His profile describes rendering times between one and three minutes per frame, along with occasional software freezes when working with complex scenes.
+**Fictional profile:** A Full Stack development student who occasionally uses Blender for personal projects on a laptop with limited hardware resources.
 
-When a render fails, he generally restarts the process and sometimes reduces image quality. His main expectations are faster rendering, a simple interface and real-time preview capabilities.
+| Question topic | Simulated answer |
+|---|---|
+| Q1 — Biggest problems | Rendering is often too slow, especially on my laptop. Sometimes the software freezes when I work with complex scenes. |
+| Q2 — Rendering time | Usually around 1 to 3 minutes per frame, depending on the complexity. |
+| Q3 — Render failures | I usually restart the render and lose time. Sometimes I have to reduce the quality to make it work. |
+| Q4 — Current software | I mainly use Blender with Cycles. |
+| Q5 — MVP features | Faster rendering, an easy-to-use interface, and a real-time preview. |
 
 ### Nelson, 23 — Creative Web Development Student
 
-Nelson uses Three.js and Blender Eevee for creative web development and interactive 3D projects. His profile describes rendering times of approximately 20 to 60 seconds for detailed frames exported from Blender.
+**Fictional profile:** A creative web development student who regularly works with Three.js and is interested in 3D animation and interactive experiences.
 
-His primary difficulty is balancing image quality and performance. He also spends time adjusting rendering settings and investigating errors. His priorities include real-time previews, adjustable quality settings and simple lighting controls.
+| Question topic | Simulated answer |
+|---|---|
+| Q1 — Biggest problems | It's hard to get good visual quality without losing performance. I also spend too much time adjusting rendering settings. |
+| Q2 — Rendering time | Around 20 to 60 seconds for a detailed frame when exporting from Blender. |
+| Q3 — Render failures | I check the settings and try again. It can be frustrating because I don't always understand what caused the error. |
+| Q4 — Current software | I use Three.js and Blender Eevee. |
+| Q5 — MVP features | Real-time preview, customizable quality settings, and simple lighting controls. |
 
 ### Patrice, 24 — Backend Development Student
 
-Patrice is interested in algorithms and has experimented with ray tracing in C++. He uses Blender Cycles, with CPU rendering times described as between two and five minutes per frame for complex scenes.
+**Fictional profile:** A Backend development student interested in algorithms who understands ray tracing principles and has experimented with rendering through code.
 
-His main concerns are high CPU and memory consumption, difficulty identifying bottlenecks and time-consuming error investigation. His preferred features include GPU acceleration, detailed error messages, performance monitoring and adjustable rendering settings.
+| Question topic | Simulated answer |
+|---|---|
+| Q1 — Biggest problems | Rendering can use too much CPU and memory. It's also difficult to identify performance bottlenecks in complex scenes. |
+| Q2 — Rendering time | Between 2 and 5 minutes per frame for complex scenes using CPU rendering. |
+| Q3 — Render failures | I check the logs, try to identify the problem, and restart the process. It can take a lot of time. |
+| Q4 — Current software | I use Blender Cycles and I've experimented with a basic ray tracer in C++. |
+| Q5 — MVP features | GPU acceleration, detailed error messages, performance monitoring, and adjustable rendering settings. |
 
 ### Cross-persona findings
 
@@ -180,7 +166,7 @@ The profiles suggest several recurring needs to investigate:
 
 These three illustrative profiles provide exploratory hypotheses, not representative evidence of professional film production needs. Their workloads, hardware configurations and performance expectations differ from those of the studio described in the project brief.
 
-Without verified interviews or a documented collection method, the profiles cannot establish how common these needs are among actual users. Their findings should inform questions for further research and should not replace requirements confirmed directly by the client.
+Because the answers were scripted rather than collected from participants, the profiles cannot establish how common these needs are among actual users. The apparent agreement between profiles is part of the simulation and does not validate the hypotheses. These hypotheses should be checked through real user interviews and should not replace requirements confirmed directly by the client.
 
 ### Implications for the first version
 
