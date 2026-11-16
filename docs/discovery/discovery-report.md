@@ -125,7 +125,72 @@ The following questions remain open until they are answered or supported by inte
 
 ---
 
-## 3. State of the art
+## 3. Supplementary user research — Student personas
+
+### Scope and status
+
+To complement the initial project research, three student developer personas were considered to explore common difficulties when using 3D rendering software.
+
+These are illustrative profiles based on the supplied persona summaries. No interview transcripts or collection method have been provided, so they are treated as simulated user personas rather than verified student interviews. They should not be confused with the official client interview or used as confirmed requirements from the film studio.
+
+### Persona comparison
+
+| Criterion | Sébastien | Nelson | Patrice |
+|---|---|---|---|
+| Age and background | 22 — Full Stack Developer Student | 23 — Creative Web Development Student | 24 — Backend Development Student |
+| Software and experience | Blender Cycles | Three.js, Blender Eevee | Blender Cycles, ray tracing experiments in C++ |
+| Rendering time described in the profile | 1–3 minutes per frame | 20–60 seconds per detailed frame exported from Blender | 2–5 minutes per complex frame on CPU |
+| Main difficulty | Slow rendering and occasional freezes | Balancing image quality and performance | High CPU and memory consumption; identifying bottlenecks |
+| Troubleshooting approach | Restart rendering; sometimes reduce quality | Check and adjust rendering settings | Analyse logs and investigate errors |
+| Preferred features | Faster rendering, simplicity, real-time preview | Real-time preview, adjustable quality, simple lighting controls | GPU acceleration, clear errors, performance monitoring, adjustable settings |
+
+The rendering times describe different workloads and hardware contexts. They are illustrative values, not comparable benchmarks or performance targets for the studio.
+
+### Sébastien, 22 — Full Stack Developer Student
+
+Sébastien occasionally uses Blender Cycles on a laptop with limited hardware resources. His profile describes rendering times between one and three minutes per frame, along with occasional software freezes when working with complex scenes.
+
+When a render fails, he generally restarts the process and sometimes reduces image quality. His main expectations are faster rendering, a simple interface and real-time preview capabilities.
+
+### Nelson, 23 — Creative Web Development Student
+
+Nelson uses Three.js and Blender Eevee for creative web development and interactive 3D projects. His profile describes rendering times of approximately 20 to 60 seconds for detailed frames exported from Blender.
+
+His primary difficulty is balancing image quality and performance. He also spends time adjusting rendering settings and investigating errors. His priorities include real-time previews, adjustable quality settings and simple lighting controls.
+
+### Patrice, 24 — Backend Development Student
+
+Patrice is interested in algorithms and has experimented with ray tracing in C++. He uses Blender Cycles, with CPU rendering times described as between two and five minutes per frame for complex scenes.
+
+His main concerns are high CPU and memory consumption, difficulty identifying bottlenecks and time-consuming error investigation. His preferred features include GPU acceleration, detailed error messages, performance monitoring and adjustable rendering settings.
+
+### Cross-persona findings
+
+The profiles suggest several recurring needs to investigate:
+
+| Identified need | Evidence in the profiles | Potential implication |
+|---|---|---|
+| Rendering performance | All three describe performance limitations. | Measure rendering time under documented scene, quality and hardware conditions before optimising. |
+| Reliability and error visibility | Sébastien restarts failed renders; Nelson and Patrice spend time investigating errors. | Consider clear error messages and ways to diagnose failures; investigate recovery needs with the client. |
+| Usability | Sébastien and Nelson want simpler interactions and settings. | Provide understandable configuration and useful feedback. |
+| Preview functionality | Sébastien and Nelson explicitly request real-time previews. | Evaluate whether a preview mechanism would benefit a future version. |
+| Resource management | Patrice describes CPU and memory concerns. | Monitor resource usage and investigate measured bottlenecks. |
+
+### Research limitations
+
+These three illustrative profiles provide exploratory hypotheses, not representative evidence of professional film production needs. Their workloads, hardware configurations and performance expectations differ from those of the studio described in the project brief.
+
+Without verified interviews or a documented collection method, the profiles cannot establish how common these needs are among actual users. Their findings should inform questions for further research and should not replace requirements confirmed directly by the client.
+
+### Implications for the first version
+
+The persona analysis suggests that performance, reliability, error visibility and usability deserve further investigation. For the initial version, I would prioritise a correct, understandable and testable renderer, with measurable rendering times and clear error handling.
+
+More advanced features, including GPU acceleration and real-time previews, should be considered after discussing their relevance and priority with the official client. These are proposed priorities, not validated client requirements.
+
+---
+
+## 4. State of the art
 
 ### Introduction
 
@@ -261,7 +326,7 @@ Performance improvements and advanced rendering capabilities should be introduce
 
 ---
 
-## 4. What is ray tracing?
+## 5. What is ray tracing?
 
 Ray tracing is a computer graphics technique used to generate a two-dimensional image from a three-dimensional scene by simulating how light interacts with objects. The input is a scene containing geometry, materials, lights and a camera, along with settings such as image resolution. For each pixel, a renderer typically generates a ray from the virtual camera into the scene and calculates whether it intersects an object. If an intersection occurs, the renderer uses information about the surface, its material and the surrounding light to determine the pixel's colour. Additional rays may be generated to simulate shadows, reflections, refractions and indirect illumination. If no object is intersected, the renderer can use a background or environment colour. The calculated colours are eventually stored in an image. More advanced methods, such as path tracing, evaluate multiple possible light paths to produce realistic results. Increasing the number of rays or samples generally improves image quality, but also increases computation time. The main challenge is therefore to balance realism, rendering performance and implementation complexity.
 
@@ -321,7 +386,7 @@ It is more advanced than the introductory tutorial and will be useful when inves
 
 ---
 
-## 5. What is C++?
+## 6. What is C++?
 
 ### Programming paradigms
 
