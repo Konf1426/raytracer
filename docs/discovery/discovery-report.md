@@ -22,8 +22,6 @@ The initial project brief explains that the studio needs a ray tracer written in
 
 The brief establishes the general objectives but does not define measurable performance targets or detailed production constraints. No verified client interview is available for this analysis; the conclusions below distinguish the brief's requirements from proposed engineering practices and topics for client validation.
 
-**Client response:** Not available: pending confirmation from the client interview.
-
 ### Theme 1: Current workflow and existing problems
 
 **Need:** Understand how the studio currently produces rendered images and identify the main difficulties experienced with its rendering software.
