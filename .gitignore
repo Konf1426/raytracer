@@ -1,0 +1,10 @@
+/build/
+/.cache/
+/CMakeUserPresets.json
+/compile_commands.json
+/render.ppm
+/.DS_Store
+
+/build/
+/render.ppm
+/render.png

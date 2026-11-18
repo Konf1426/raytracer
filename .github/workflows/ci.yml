@@ -1,0 +1,34 @@
+name: Build, test and render
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [unix-debug, unix-release]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the development image
+        run: docker build -f .devcontainer/Dockerfile -t raytracer-dev .
+      - name: Build, test and render in the development image
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" -w /workspace \
+            raytracer-dev bash -lc \
+            'make test PRESET=${{ matrix.preset }} && ./build/${{ matrix.preset }}/raytracer build/${{ matrix.preset }}/ci.ppm 64 36'
+      - name: Keep the rendered image
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-${{ matrix.preset }}
+          path: build/${{ matrix.preset }}/ci.ppm
+          if-no-files-found: error

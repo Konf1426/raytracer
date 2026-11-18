@@ -1,0 +1,15 @@
+{
+  "name": "Raytracer (C++20)",
+  "build": { "dockerfile": "Dockerfile" },
+  "remoteUser": "vscode",
+  "postCreateCommand": "cmake --preset unix-debug",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-vscode.cmake-tools", "ms-vscode.cpptools"],
+      "settings": {
+        "cmake.useCMakePresets": "always",
+        "C_Cpp.default.compileCommands": "${workspaceFolder}/build/unix-debug/compile_commands.json"
+      }
+    }
+  }
+}
