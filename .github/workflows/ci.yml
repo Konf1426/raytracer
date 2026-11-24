@@ -25,7 +25,12 @@ jobs:
           docker run --rm \
             -v "$PWD:/workspace" -w /workspace \
             raytracer-dev bash -lc \
-            'make test PRESET=${{ matrix.preset }} && ./build/${{ matrix.preset }}/raytracer build/${{ matrix.preset }}/ci.jpg 64 36 && ./build/${{ matrix.preset }}/tests/jpeg_check build/${{ matrix.preset }}/ci.jpg 64 36'
+            'make test PRESET=${{ matrix.preset }} &&
+             make run PRESET=${{ matrix.preset }} &&
+             ./build/${{ matrix.preset }}/tests/jpeg_check render.jpg 640 360 &&
+             ./build/${{ matrix.preset }}/raytracer build/${{ matrix.preset }}/ci.jpg 64 36 &&
+             ./build/${{ matrix.preset }}/tests/jpeg_check build/${{ matrix.preset }}/ci.jpg 64 36 &&
+             make clean PRESET=${{ matrix.preset }}'
       - name: Keep the rendered image
         uses: actions/upload-artifact@v4
         with:

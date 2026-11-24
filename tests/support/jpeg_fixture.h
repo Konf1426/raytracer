@@ -38,7 +38,8 @@ struct DecodedJpeg {
     std::unique_ptr<unsigned char, decltype(&stbi_image_free)> pixels{nullptr, &stbi_image_free};
 
     explicit DecodedJpeg(const std::filesystem::path& path)
-        : pixels(stbi_load(path.string().c_str(), &width, &height, &channels, 3), &stbi_image_free) {}
+        : pixels(stbi_load(path.string().c_str(), &width, &height, &channels, 3),
+                 &stbi_image_free) {}
 
     int channel(int x, int y, int component) const {
         return pixels.get()[3 * (y * width + x) + component];

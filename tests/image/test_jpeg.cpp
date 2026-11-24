@@ -60,7 +60,8 @@ TEST_CASE("JPEG saving reports output open failures", "[jpeg]") {
     TemporaryJpeg file;
     const Image image(1, 1);
     REQUIRE_THROWS_AS(save_jpeg(image, file.directory()), std::runtime_error);
-    REQUIRE_THROWS_AS(save_jpeg(image, file.directory() / "missing" / "image.jpg"), std::runtime_error);
+    REQUIRE_THROWS_AS(save_jpeg(image, file.directory() / "missing" / "image.jpg"),
+                      std::runtime_error);
 }
 
 TEST_CASE("JPEG quality is validated and both supported endpoints decode", "[jpeg]") {

@@ -30,7 +30,7 @@ The Linux /dev/full fixture exercises write failures after successful file open.
 
 Docker Desktop's Linux daemon was unavailable. Automatic execution review rejected
 a combined download/startup command without a detailed reason. Downloads succeeded
-separately; no container or hosted CI success is claimed for m2 here. Native WSL
+separately; the hosted Docker checks are recorded below. Native WSL
 validation uses the README's isolated build/host-validation tree, never the
 container's build/unix-debug cache.
 
@@ -69,6 +69,18 @@ f9984a4844fa277a28ec20571861980656c8342c14f3f981e2bbed51f0222071
 GCC was 13.3.0 and CMake 3.31.10 in native Ubuntu/WSL. No sanitizer or native
 Windows/macOS validation of m2 is claimed. git diff --check passed.
 
+## Hosted container validation
+
+[GitHub Actions run 45417894682](https://github.com/Konf1426/raytracer/actions/runs/45417894682)
+passed both unix-debug and unix-release on commit cfd39a6. Both jobs built the
+repository's Dockerfile, ran make test inside that image, rendered a JPEG and
+decoded it before uploading the image artifact. This validates the actual
+container build, not the editor's Dev Containers reopening flow.
+
+The follow-up workflow also runs make run, decodes the default render.jpg and
+runs make clean after validation, keeping the JPEG artifact. See the branch's
+latest workflow for the result of those added command checks.
+
 ## Existing files changed since m1
 
 | File | Reason |
@@ -91,7 +103,7 @@ rewritten merely to extract a helper. Third-party code stays behind the adapter.
 
 ## Remaining review
 
-Owner review and ADR acceptance, the editor container flow, native Windows/macOS
-and hosted CI are separate from these native checks. The m2 checklist records
+Owner review and ADR acceptance, the editor container flow and native Windows/macOS
+are separate from these checks. The m2 checklist records
 them without claiming delivery. Historical m1 PNG/Material gaps are explicit
 there; this extension does not silently repair or move the m1 snapshot.
