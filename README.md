@@ -7,6 +7,10 @@ The m2 implementation adds a blue triangle beside the matte sphere on its floor,
 with directional sunlight, hard shadows and a sky background. `make run` saves a
 real JPEG. The preview below is an unchanged copy of that output.
 
+Every shape owns a Material. It carries the surface colour and computes Lambert's
+response; Renderer determines visibility and delegates shading to the hit's
+material. This corrects a missing m1 concept without moving the m1 tag.
+
 ![m2: a sunlit red sphere and blue triangle on a floor](docs/images/m2-preview.jpg)
 
 The [original m1 preview](docs/images/m1-preview.png), discovery report and
@@ -81,10 +85,11 @@ Use TDD: write a test with expected values calculated independently, observe the
 failure, implement the smallest change, then refactor with the tests green.
 Add each new test file explicitly to `tests/CMakeLists.txt`.
 
-There are 50 Catch2 cases plus one CLI integration test. They cover vector maths,
+There are 62 Catch2 cases plus one CLI integration test. They cover vector maths,
 ray parameters, sphere/plane/triangle intersections, closest-hit selection, camera
 pixel centres, image bounds, PPM/JPEG encoding, sunlight, shadows and command-line
-errors. JPEG tests decode real files and allow small documented lossy errors.
+errors, Material's Lambert response and ownership through every shape and Hit.
+JPEG tests decode real files and allow small documented lossy errors.
 See the [TDD record](docs/engineering/tdd-log.md) and
 [engineering review](docs/engineering/review.md). The
 [validation record](docs/engineering/validation.md) includes successful Debug and
@@ -105,6 +110,7 @@ src/
   math/          3D vectors
   geometry/      rays, hits and shapes (sphere, plane and triangle)
   image/         linear RGB pixels and separate PPM/JPEG encoding
+  material/      surface colour and Lambert response
   render/        camera, scene ownership and sunlight rendering
 tests/           mirrors the source domains, plus CLI checks
 docs/

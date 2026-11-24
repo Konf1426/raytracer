@@ -25,19 +25,19 @@ classDiagram
     class Sphere {
         Vector centre
         double radius
-        Colour colour
+        Material material
     }
     class Plane {
         Vector point
         Vector normal
-        Colour colour
+        Material material
     }
     class Triangle {
         Vector a
         Vector edge1
         Vector edge2
         Vector normal
-        Colour colour
+        Material material
     }
     class Camera {
         Vector eye
@@ -55,6 +55,10 @@ classDiagram
         double green
         double blue
     }
+    class Material {
+        Colour colour
+        shade(normal, to_light, ambient, in_shadow)
+    }
     class Shape {
         <<abstract>>
     }
@@ -62,7 +66,7 @@ classDiagram
         double t
         Vector point
         Vector normal
-        Colour colour
+        Material material
     }
     class Scene
     class Renderer
@@ -75,22 +79,24 @@ classDiagram
     Shape <|-- Plane
     Shape <|-- Triangle
     Triangle "1" *-- "4" Vector : origin, edges and normal
-    Triangle "1" *-- "1" Colour : surface colour
+    Triangle "1" *-- "1" Material : surface response
     Ray "1" *-- "2" Vector : origin and direction
     Sphere "1" *-- "1" Vector : centre
-    Sphere "1" *-- "1" Colour : surface colour
+    Sphere "1" *-- "1" Material : surface response
     Plane "1" *-- "2" Vector : point and normal
-    Plane "1" *-- "1" Colour : surface colour
+    Plane "1" *-- "1" Material : surface response
+    Material "1" *-- "1" Colour : surface colour
     Camera "1" *-- "1" Vector : eye
     Camera "1" ..> "0..*" Ray : generates
     Image "1" *-- "1..*" Colour : pixels
     Scene "1" *-- "0..*" Shape : owns
     Shape "1" ..> "0..1" Hit : reports per query
     Hit "1" *-- "2" Vector : point and normal
-    Hit "1" *-- "1" Colour : surface colour
+    Hit "1" *-- "1" Material : owned copy
     Renderer ..> Scene : queries
     Renderer ..> Camera : requests primary rays
     Renderer ..> Image : produces
+    Renderer ..> Material : delegates shading
     JpegAdapter ..> Image : reads
 ```
 
@@ -118,16 +124,27 @@ add/subtract/scale are `+`, `-` and scalar-left `*`.
   intersection policy; no watertight guarantee is claimed.
 - Colour stores linear RGB; only the PPM and JPEG adapters clamp and gamma encode
   it. JPEG quality defaults to 95; decoding may slightly change pixel values.
+- Every shape owns a Material value. Its hit contains a copy, so material access
+  remains valid after the shape is destroyed. Colour cannot implicitly convert
+  to Material; callers state the composition explicitly.
 
 ## Rendering
 
 For each pixel, find the first hit. A miss returns sky colour (0.5, 0.7, 1). For
 a hit, let n be its unit normal and L the direction towards the sun. If the shadow
 ray hits another surface, direct light is zero. Otherwise it is max(0, n · L).
-Multiply the surface colour by `0.15 + 0.85 * direct_light`.
+Material multiplies its surface colour by `ambient + (1 - ambient) * direct_light`.
+With just a normal and light direction, shade defaults to zero ambient and no
+shadow, giving the course's pure Lambert response. Renderer passes its configured
+ambient (0.15 by default) and the result of its shadow visibility query. Normals
+and light directions are unit vectors; shade rejects ambient outside [0, 1] or a
+non-finite value.
 
 The demonstration uses a radius-1 sphere centred at (0, 1, 0), a floor at y = 0,
 an eye at (0, 1.4, 4), and sunlight towards (-1, 2, 1). The sphere therefore touches
 the floor at y = 0. m2 adds a triangle with corners (1.2, 0, 0), (3.2, 0, 0)
-and (2.2, 2.4, 0), with a +Z normal and blue surface colour. Shape, Hit, Scene,
-Camera and Renderer keep their m1 interfaces.
+and (2.2, 2.4, 0), with a +Z normal and blue material. Shape, Scene, Camera and the
+Renderer configuration keep their m1 interfaces. Hit and the Sphere/Plane
+constructors now carry Material in place of Colour, correcting the missing m1
+composition under [ADR 0011](../adr/0011-shape-material.md). No intersection maths
+or camera coordinates change.

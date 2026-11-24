@@ -16,6 +16,7 @@ costs. Their acceptance remains part of preparing the m1 delivery.
 | [0008](0008-first-render.md) | Shapes, camera and sunlight | Proposed |
 | [0009](0009-ppm.md) | Image storage and PPM encoding | Proposed |
 | [0010](0010-jpeg.md) | Isolated JPEG adapter and pinned stb snapshot | Proposed |
+| [0011](0011-shape-material.md) | Shapes own materials and delegate surface response | Proposed |
 
 The owner selected the MIT licence during implementation. This does not imply
 acceptance of these architecture records.
