@@ -18,6 +18,7 @@ add_executable(raytracer_tests
     geometry/test_triangle.cpp
     image/test_image.cpp
     image/test_jpeg.cpp
+    material/test_material.cpp
     render/test_camera.cpp
     render/test_renderer.cpp
 )

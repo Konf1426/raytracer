@@ -26,6 +26,7 @@ add_library(raytracer_core
     src/image/image.cpp
     src/image/ppm.cpp
     src/image/jpeg.cpp
+    src/material/material.cpp
     src/render/camera.cpp
     src/render/scene.cpp
     src/render/renderer.cpp
