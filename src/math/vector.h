@@ -11,6 +11,7 @@ public:
     Vector operator-(const Vector& other) const;
 
     double dot(const Vector& other) const;
+    Vector cross(const Vector& other) const;
     double length() const;
 
     Vector normalised() const;

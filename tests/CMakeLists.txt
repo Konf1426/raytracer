@@ -9,6 +9,7 @@ FetchContent_MakeAvailable(Catch2)
 
 add_executable(raytracer_tests
     math/test_vector.cpp
+    math/test_cross.cpp
     geometry/test_ray.cpp
     geometry/test_shapes.cpp
     image/test_image.cpp

@@ -28,6 +28,12 @@ double Vector::dot(const Vector& other) const {
 
 double Vector::length() const { return std::sqrt(dot(*this)); }
 
+Vector Vector::cross(const Vector& other) const {
+    return Vector(_y * other._z - _z * other._y,
+                  _z * other._x - _x * other._z,
+                  _x * other._y - _y * other._x);
+}
+
 Vector Vector::normalised() const {
     const double magnitude = length();
     if (magnitude == 0.0 || !std::isfinite(magnitude)) {
