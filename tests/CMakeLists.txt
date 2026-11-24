@@ -7,6 +7,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Catch2)
 
+add_library(stb_read STATIC support/stb_read.cpp)
+target_include_directories(stb_read SYSTEM PUBLIC ${PROJECT_SOURCE_DIR}/third_party/stb)
+
 add_executable(raytracer_tests
     math/test_vector.cpp
     math/test_cross.cpp
@@ -14,12 +17,13 @@ add_executable(raytracer_tests
     geometry/test_shapes.cpp
     geometry/test_triangle.cpp
     image/test_image.cpp
+    image/test_jpeg.cpp
     render/test_camera.cpp
     render/test_renderer.cpp
 )
 target_include_directories(raytracer_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(raytracer_tests PRIVATE
-    raytracer_core raytracer_warnings Catch2::Catch2WithMain)
+    raytracer_core raytracer_warnings Catch2::Catch2WithMain stb_read)
 
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 include(Catch)

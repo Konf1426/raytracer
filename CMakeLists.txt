@@ -13,6 +13,9 @@ else()
     target_compile_options(raytracer_warnings INTERFACE -Wall -Wextra -Wpedantic)
 endif()
 
+add_library(stb_write STATIC src/image/stb_write.cpp)
+target_include_directories(stb_write SYSTEM PUBLIC third_party/stb)
+
 add_library(raytracer_core
     src/math/vector.cpp
     src/geometry/ray.cpp
@@ -22,12 +25,13 @@ add_library(raytracer_core
     src/image/colour.cpp
     src/image/image.cpp
     src/image/ppm.cpp
+    src/image/jpeg.cpp
     src/render/camera.cpp
     src/render/scene.cpp
     src/render/renderer.cpp
 )
 target_include_directories(raytracer_core PUBLIC src)
-target_link_libraries(raytracer_core PRIVATE raytracer_warnings)
+target_link_libraries(raytracer_core PRIVATE raytracer_warnings stb_write)
 
 add_executable(raytracer src/main.cpp)
 target_link_libraries(raytracer PRIVATE raytracer_core raytracer_warnings)
