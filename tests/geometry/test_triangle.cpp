@@ -10,7 +10,7 @@ static constexpr double infinity = std::numeric_limits<double>::infinity();
 static const Colour red(1, 0, 0);
 
 static Triangle example_triangle() {
-    return Triangle(Vector(0, 0, -5), Vector(2, 0, -5), Vector(0, 2, -5), red);
+    return Triangle(Vector(0, 0, -5), Vector(2, 0, -5), Vector(0, 2, -5), Material(red));
 }
 
 TEST_CASE("a triangle returns the hand calculated hit normal and surface colour", "[triangle]") {
@@ -21,7 +21,7 @@ TEST_CASE("a triangle returns the hand calculated hit normal and surface colour"
     REQUIRE_THAT(hit->t, Catch::Matchers::WithinAbs(5, tolerance));
     require_vectors_equal(hit->point, Vector(0.5, 0.5, -5));
     require_vectors_equal(hit->normal, Vector(0, 0, 1));
-    require_colours_equal(hit->colour, red);
+    require_colours_equal(hit->material.colour(), red);
 }
 
 TEST_CASE("a ray crossing the triangle plane outside its edges misses", "[triangle]") {
@@ -62,7 +62,7 @@ TEST_CASE("triangle edges and vertices are included", "[triangle]") {
 }
 
 TEST_CASE("triangles intersect from both sides and keep their winding normal", "[triangle]") {
-    const Triangle triangle(Vector(0, 0, -5), Vector(0, 2, -5), Vector(2, 0, -5), red);
+    const Triangle triangle(Vector(0, 0, -5), Vector(0, 2, -5), Vector(2, 0, -5), Material(red));
     const auto hit = triangle.intersect(Ray(Vector(0.5, 0.5, 0), Vector(0, 0, -1)), 0, infinity);
     REQUIRE(hit.has_value());
     require_vectors_equal(hit->normal, Vector(0, 0, -1));
@@ -74,7 +74,7 @@ TEST_CASE("triangles intersect from both sides and keep their winding normal", "
 
 TEST_CASE("a tilted triangle normal uses all three axes", "[triangle]") {
     // (2,0,2) cross (0,2,2) = (-4,-4,4); at x=y=0.5 the plane has z=-4.
-    const Triangle triangle(Vector(0, 0, -5), Vector(2, 0, -3), Vector(0, 2, -3), red);
+    const Triangle triangle(Vector(0, 0, -5), Vector(2, 0, -3), Vector(0, 2, -3), Material(red));
     const auto hit = triangle.intersect(Ray(Vector(0.5, 0.5, 0), Vector(0, 0, -1)), 0, infinity);
     REQUIRE(hit.has_value());
     REQUIRE_THAT(hit->t, Catch::Matchers::WithinAbs(4, tolerance));
@@ -83,11 +83,11 @@ TEST_CASE("a tilted triangle normal uses all three axes", "[triangle]") {
 }
 
 TEST_CASE("triangles reject repeated collinear and nonfinite corners", "[triangle]") {
-    REQUIRE_THROWS_AS(Triangle(Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 0, 0), red),
+    REQUIRE_THROWS_AS(Triangle(Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 0, 0), Material(red)),
                       std::invalid_argument);
-    REQUIRE_THROWS_AS(Triangle(Vector(0, 0, 0), Vector(1, 1, 1), Vector(2, 2, 2), red),
+    REQUIRE_THROWS_AS(Triangle(Vector(0, 0, 0), Vector(1, 1, 1), Vector(2, 2, 2), Material(red)),
                       std::invalid_argument);
-    REQUIRE_THROWS_AS(Triangle(Vector(infinity, 0, 0), Vector(1, 0, 0), Vector(0, 1, 0), red),
+    REQUIRE_THROWS_AS(Triangle(Vector(infinity, 0, 0), Vector(1, 0, 0), Vector(0, 1, 0), Material(red)),
                       std::invalid_argument);
 }
 
@@ -95,7 +95,7 @@ TEST_CASE("scene selection and sunlight accept a triangle through Shape", "[tria
     Scene scene;
     // Far first, near second: both must participate in the existing nearest-hit query.
     scene.add(std::make_unique<Triangle>(Vector(0, 0, -8), Vector(2, 0, -8), Vector(0, 2, -8),
-                                         Colour(0, 0, 1)));
+                                         Material(Colour(0, 0, 1))));
     scene.add(std::make_unique<Triangle>(example_triangle()));
     const Ray ray(Vector(0.5, 0.5, 0), Vector(0, 0, -1));
     const auto hit = scene.closest_hit(ray);

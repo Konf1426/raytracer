@@ -1,6 +1,5 @@
 #include "render/renderer.h"
 
-#include <algorithm>
 #include <cmath>
 #include <stdexcept>
 
@@ -17,15 +16,13 @@ Colour Renderer::trace(const Scene& scene, const Ray& ray) const {
         return Colour(0.5, 0.7, 1.0);
     }
 
-    double sunlight = std::max(0.0, hit->normal.dot(_to_sun));
-    if (sunlight > 0.0) {
+    bool in_shadow = false;
+    if (hit->normal.dot(_to_sun) > 0.0) {
         // Offset the new origin to avoid rounding errors shadowing the surface itself.
         const Ray shadow_ray(hit->point + ray_epsilon * hit->normal, _to_sun);
-        if (scene.closest_hit(shadow_ray)) {
-            sunlight = 0.0;
-        }
+        in_shadow = scene.closest_hit(shadow_ray).has_value();
     }
-    return (_ambient + (1.0 - _ambient) * sunlight) * hit->colour;
+    return hit->material.shade(hit->normal, _to_sun, _ambient, in_shadow);
 }
 
 Image Renderer::render(const Scene& scene, const Camera& camera) const {

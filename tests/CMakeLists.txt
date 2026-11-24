@@ -16,6 +16,7 @@ add_executable(raytracer_tests
     geometry/test_ray.cpp
     geometry/test_shapes.cpp
     geometry/test_triangle.cpp
+    geometry/test_material_composition.cpp
     image/test_image.cpp
     image/test_jpeg.cpp
     material/test_material.cpp

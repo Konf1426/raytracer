@@ -1,7 +1,7 @@
 #include "geometry/plane.h"
 
-Plane::Plane(const Vector& point, const Vector& normal, const Colour& colour)
-    : _point(point), _normal(normal.normalised()), _colour(colour) {}
+Plane::Plane(const Vector& point, const Vector& normal, const Material& material)
+    : _point(point), _normal(normal.normalised()), _material(material) {}
 
 std::optional<Hit> Plane::intersect(const Ray& ray, double t_min, double t_max) const {
     const double denominator = _normal.dot(ray.direction());
@@ -12,5 +12,5 @@ std::optional<Hit> Plane::intersect(const Ray& ray, double t_min, double t_max) 
     if (t <= t_min || t >= t_max) {
         return std::nullopt;
     }
-    return Hit{t, ray.at(t), _normal, _colour};
+    return Hit{t, ray.at(t), _normal, _material};
 }

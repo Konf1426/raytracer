@@ -1,8 +1,8 @@
 #include "geometry/triangle.h"
 
-Triangle::Triangle(const Vector& a, const Vector& b, const Vector& c, const Colour& colour)
+Triangle::Triangle(const Vector& a, const Vector& b, const Vector& c, const Material& material)
     : _a(a), _edge1(b - a), _edge2(c - a),
-      _normal(_edge1.cross(_edge2).normalised()), _colour(colour) {}
+      _normal(_edge1.cross(_edge2).normalised()), _material(material) {}
 
 std::optional<Hit> Triangle::intersect(const Ray& ray, double t_min, double t_max) const {
     // Moller-Trumbore: solve origin + t*direction = a + u*edge1 + v*edge2.
@@ -26,5 +26,5 @@ std::optional<Hit> Triangle::intersect(const Ray& ray, double t_min, double t_ma
     if (!(t > t_min && t < t_max)) {
         return std::nullopt;
     }
-    return Hit{t, ray.at(t), _normal, _colour};
+    return Hit{t, ray.at(t), _normal, _material};
 }

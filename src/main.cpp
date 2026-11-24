@@ -42,10 +42,13 @@ int main(int argc, char* argv[]) {
         const int height = argc == 4 ? parse_dimension(argv[3]) : 360;
 
         Scene scene;
-        scene.add(std::make_unique<Sphere>(Vector(0, 1, 0), 1, Colour(0.75, 0.12, 0.06)));
-        scene.add(std::make_unique<Plane>(Vector(0, 0, 0), Vector(0, 1, 0), Colour(0.55, 0.6, 0.48)));
+        scene.add(std::make_unique<Sphere>(Vector(0, 1, 0), 1,
+                                           Material(Colour(0.75, 0.12, 0.06))));
+        scene.add(std::make_unique<Plane>(Vector(0, 0, 0), Vector(0, 1, 0),
+                                          Material(Colour(0.55, 0.6, 0.48))));
         scene.add(std::make_unique<Triangle>(Vector(1.2, 0, 0), Vector(3.2, 0, 0),
-                                              Vector(2.2, 2.4, 0), Colour(0.06, 0.25, 0.85)));
+                                              Vector(2.2, 2.4, 0),
+                                              Material(Colour(0.06, 0.25, 0.85))));
         const Camera camera(width, height, Vector(0, 1.4, 4), 2.0, 1.5);
         save_jpeg(Renderer().render(scene, camera), output);
         std::cout << "Rendered " << width << " x " << height << " to " << output.string() << '\n';

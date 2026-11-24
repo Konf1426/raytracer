@@ -3,8 +3,8 @@
 #include <cmath>
 #include <stdexcept>
 
-Sphere::Sphere(const Vector& centre, double radius, const Colour& colour)
-    : _centre(centre), _radius(radius), _colour(colour) {
+Sphere::Sphere(const Vector& centre, double radius, const Material& material)
+    : _centre(centre), _radius(radius), _material(material) {
     if (radius <= 0.0 || !std::isfinite(radius)) {
         throw std::invalid_argument("A sphere needs a positive finite radius");
     }
@@ -29,5 +29,5 @@ std::optional<Hit> Sphere::intersect(const Ray& ray, double t_min, double t_max)
         }
     }
     const Vector point = ray.at(t);
-    return Hit{t, point, (1.0 / _radius) * (point - _centre), _colour};
+    return Hit{t, point, (1.0 / _radius) * (point - _centre), _material};
 }

@@ -9,17 +9,17 @@ static constexpr double infinity = std::numeric_limits<double>::infinity();
 static const Colour red(1, 0, 0);
 
 TEST_CASE("a sphere returns the first visible hit and outward normal", "[sphere]") {
-    const Sphere sphere(Vector(0, 0, -5), 1, red);
+    const Sphere sphere(Vector(0, 0, -5), 1, Material(red));
     const auto hit = sphere.intersect(Ray(Vector(0, 0, 0), Vector(0, 0, -1)), 0, infinity);
     REQUIRE(hit.has_value());
     REQUIRE_THAT(hit->t, Catch::Matchers::WithinAbs(4, tolerance));
     require_vectors_equal(hit->point, Vector(0, 0, -4));
     require_vectors_equal(hit->normal, Vector(0, 0, 1));
-    require_colours_equal(hit->colour, red);
+    require_colours_equal(hit->material.colour(), red);
 }
 
 TEST_CASE("sphere intersections support nonunit directions and clipped roots", "[sphere]") {
-    const Sphere sphere(Vector(0, 0, -5), 1, red);
+    const Sphere sphere(Vector(0, 0, -5), 1, Material(red));
     const auto scaled = sphere.intersect(Ray(Vector(0, 0, 0), Vector(0, 0, -2)), 0, infinity);
     REQUIRE(scaled.has_value());
     REQUIRE_THAT(scaled->t, Catch::Matchers::WithinAbs(2, tolerance));
@@ -31,7 +31,7 @@ TEST_CASE("sphere intersections support nonunit directions and clipped roots", "
 }
 
 TEST_CASE("a ray inside a sphere finds its exit", "[sphere]") {
-    const Sphere sphere(Vector(1, 2, 3), 2, red);
+    const Sphere sphere(Vector(1, 2, 3), 2, Material(red));
     const auto hit = sphere.intersect(Ray(Vector(1, 2, 3), Vector(1, 0, 0)), 0, infinity);
     REQUIRE(hit.has_value());
     REQUIRE_THAT(hit->t, Catch::Matchers::WithinAbs(2, tolerance));
@@ -39,7 +39,7 @@ TEST_CASE("a ray inside a sphere finds its exit", "[sphere]") {
 }
 
 TEST_CASE("a sphere handles tangents misses and objects behind the eye", "[sphere]") {
-    const Sphere sphere(Vector(0, 0, -5), 1, red);
+    const Sphere sphere(Vector(0, 0, -5), 1, Material(red));
     const auto tangent = sphere.intersect(Ray(Vector(1, 0, 0), Vector(0, 0, -1)), 0, infinity);
     REQUIRE(tangent.has_value());
     REQUIRE_THAT(tangent->t, Catch::Matchers::WithinAbs(5, tolerance));
@@ -48,13 +48,13 @@ TEST_CASE("a sphere handles tangents misses and objects behind the eye", "[spher
 }
 
 TEST_CASE("a sphere must have a positive finite radius", "[sphere]") {
-    REQUIRE_THROWS_AS(Sphere(Vector(0, 0, 0), 0, red), std::invalid_argument);
-    REQUIRE_THROWS_AS(Sphere(Vector(0, 0, 0), -1, red), std::invalid_argument);
-    REQUIRE_THROWS_AS(Sphere(Vector(0, 0, 0), infinity, red), std::invalid_argument);
+    REQUIRE_THROWS_AS(Sphere(Vector(0, 0, 0), 0, Material(red)), std::invalid_argument);
+    REQUIRE_THROWS_AS(Sphere(Vector(0, 0, 0), -1, Material(red)), std::invalid_argument);
+    REQUIRE_THROWS_AS(Sphere(Vector(0, 0, 0), infinity, Material(red)), std::invalid_argument);
 }
 
 TEST_CASE("the client's floor example hits at t two", "[plane]") {
-    const Plane floor(Vector(0, 0, 0), Vector(0, 2, 0), red);
+    const Plane floor(Vector(0, 0, 0), Vector(0, 2, 0), Material(red));
     const auto hit = floor.intersect(Ray(Vector(0, 8, 0), Vector(3, -4, 0)), 0, infinity);
     REQUIRE(hit.has_value());
     REQUIRE_THAT(hit->t, Catch::Matchers::WithinAbs(2, tolerance));
@@ -63,10 +63,10 @@ TEST_CASE("the client's floor example hits at t two", "[plane]") {
 }
 
 TEST_CASE("a plane ignores parallel backward and clipped intersections", "[plane]") {
-    const Plane floor(Vector(0, 0, 0), Vector(0, 1, 0), red);
+    const Plane floor(Vector(0, 0, 0), Vector(0, 1, 0), Material(red));
     REQUIRE_FALSE(floor.intersect(Ray(Vector(0, 8, 0), Vector(5, 0, 0)), 0, infinity));
     REQUIRE_FALSE(floor.intersect(Ray(Vector(0, 8, 0), Vector(3, 4, 0)), 0, infinity));
     REQUIRE_FALSE(floor.intersect(Ray(Vector(0, 8, 0), Vector(3, -4, 0)), 0, 1));
     REQUIRE_FALSE(floor.intersect(Ray(Vector(0, 0, 0), Vector(0, -1, 0)), 0, infinity));
-    REQUIRE_THROWS_AS(Plane(Vector(0, 0, 0), Vector(0, 0, 0), red), std::invalid_argument);
+    REQUIRE_THROWS_AS(Plane(Vector(0, 0, 0), Vector(0, 0, 0), Material(red)), std::invalid_argument);
 }
