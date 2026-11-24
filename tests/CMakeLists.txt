@@ -12,6 +12,7 @@ add_executable(raytracer_tests
     math/test_cross.cpp
     geometry/test_ray.cpp
     geometry/test_shapes.cpp
+    geometry/test_triangle.cpp
     image/test_image.cpp
     render/test_camera.cpp
     render/test_renderer.cpp

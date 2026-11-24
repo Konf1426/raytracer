@@ -18,6 +18,7 @@ add_library(raytracer_core
     src/geometry/ray.cpp
     src/geometry/sphere.cpp
     src/geometry/plane.cpp
+    src/geometry/triangle.cpp
     src/image/colour.cpp
     src/image/image.cpp
     src/image/ppm.cpp
