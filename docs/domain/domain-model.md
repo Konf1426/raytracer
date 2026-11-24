@@ -2,7 +2,7 @@
 
 This model follows the [client's explanation](https://learn.glassworks.tech/raytracer/understanding-the-domain/)
 and distinguishes spatial vectors from RGB colours. It describes the implemented
-m1 proposal; the owner must review its decisions in [the ADRs](../adr/README.md).
+m2 extension; the owner must review its decisions in [the ADRs](../adr/README.md).
 
 ```mermaid
 classDiagram
@@ -14,6 +14,7 @@ classDiagram
         subtract(other)
         scale(t)
         dot(other)
+        cross(other)
         length()
         normalised()
     }
@@ -28,6 +29,13 @@ classDiagram
     }
     class Plane {
         Vector point
+        Vector normal
+        Colour colour
+    }
+    class Triangle {
+        Vector a
+        Vector edge1
+        Vector edge2
         Vector normal
         Colour colour
     }
@@ -58,9 +66,16 @@ classDiagram
     }
     class Scene
     class Renderer
+    class JpegAdapter {
+        <<function>>
+        save_jpeg(image, path, quality)
+    }
 
     Shape <|-- Sphere
     Shape <|-- Plane
+    Shape <|-- Triangle
+    Triangle "1" *-- "4" Vector : origin, edges and normal
+    Triangle "1" *-- "1" Colour : surface colour
     Ray "1" *-- "2" Vector : origin and direction
     Sphere "1" *-- "1" Vector : centre
     Sphere "1" *-- "1" Colour : surface colour
@@ -76,6 +91,7 @@ classDiagram
     Renderer ..> Scene : queries
     Renderer ..> Camera : requests primary rays
     Renderer ..> Image : produces
+    JpegAdapter ..> Image : reads
 ```
 
 Composition here means owned values, not shared identity. Every Image contains
@@ -93,7 +109,15 @@ add/subtract/scale are `+`, `-` and scalar-left `*`.
 - A shape returns its smallest t strictly inside the requested interval. Scene
   compares those values to find the first visible surface, regardless of order.
 - Sphere normals point outward. A plane normal keeps its configured orientation.
-- Colour stores linear RGB; only the PPM writer clamps and gamma encodes it.
+- Triangle normals follow `normalise((b-a) cross (c-a))` and keep that orientation
+  on both faces. Edges and vertices are included; collinear, repeated or non-finite
+  vertices are rejected. Ray-parallel triangles miss. Moller-Trumbore uses an
+  exact zero determinant check (as Plane does for its denominator), avoiding an
+  absolute tolerance that would depend on ray direction length or triangle size.
+  Near-parallel rays and shared mesh edges at extreme scales need a future robust
+  intersection policy; no watertight guarantee is claimed.
+- Colour stores linear RGB; only the PPM and JPEG adapters clamp and gamma encode
+  it. JPEG quality defaults to 95; decoding may slightly change pixel values.
 
 ## Rendering
 
@@ -104,4 +128,6 @@ Multiply the surface colour by `0.15 + 0.85 * direct_light`.
 
 The demonstration uses a radius-1 sphere centred at (0, 1, 0), a floor at y = 0,
 an eye at (0, 1.4, 4), and sunlight towards (-1, 2, 1). The sphere therefore touches
-the floor at y = 0.
+the floor at y = 0. m2 adds a triangle with corners (1.2, 0, 0), (3.2, 0, 0)
+and (2.2, 2.4, 0), with a +Z normal and blue surface colour. Shape, Hit, Scene,
+Camera and Renderer keep their m1 interfaces.

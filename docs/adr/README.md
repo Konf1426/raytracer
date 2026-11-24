@@ -15,6 +15,7 @@ costs. Their acceptance remains part of preparing the m1 delivery.
 | [0007](0007-vector-and-coordinates.md) | Vectors, coordinates and invalid inputs | Proposed |
 | [0008](0008-first-render.md) | Shapes, camera and sunlight | Proposed |
 | [0009](0009-ppm.md) | Image storage and PPM encoding | Proposed |
+| [0010](0010-jpeg.md) | Isolated JPEG adapter and pinned stb snapshot | Proposed |
 
 The owner selected the MIT licence during implementation. This does not imply
 acceptance of these architecture records.
