@@ -29,9 +29,14 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 include(Catch)
 catch_discover_tests(raytracer_tests)
 
-add_test(NAME "command line validation and PPM render"
+add_executable(jpeg_check support/jpeg_check.cpp)
+target_include_directories(jpeg_check PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(jpeg_check PRIVATE stb_read raytracer_warnings)
+
+add_test(NAME "command line validation and JPEG render"
     COMMAND ${CMAKE_COMMAND}
         -DRAYTRACER_EXE=$<TARGET_FILE:raytracer>
+        -DJPEG_CHECK_EXE=$<TARGET_FILE:jpeg_check>
         -DTEST_OUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}
         -P ${CMAKE_CURRENT_SOURCE_DIR}/cli_test.cmake
 )

@@ -25,10 +25,10 @@ jobs:
           docker run --rm \
             -v "$PWD:/workspace" -w /workspace \
             raytracer-dev bash -lc \
-            'make test PRESET=${{ matrix.preset }} && ./build/${{ matrix.preset }}/raytracer build/${{ matrix.preset }}/ci.ppm 64 36'
+            'make test PRESET=${{ matrix.preset }} && ./build/${{ matrix.preset }}/raytracer build/${{ matrix.preset }}/ci.jpg 64 36 && ./build/${{ matrix.preset }}/tests/jpeg_check build/${{ matrix.preset }}/ci.jpg 64 36'
       - name: Keep the rendered image
         uses: actions/upload-artifact@v4
         with:
           name: render-${{ matrix.preset }}
-          path: build/${{ matrix.preset }}/ci.ppm
+          path: build/${{ matrix.preset }}/ci.jpg
           if-no-files-found: error

@@ -1,6 +1,7 @@
 #include "geometry/plane.h"
 #include "geometry/sphere.h"
-#include "image/ppm.h"
+#include "geometry/triangle.h"
+#include "image/jpeg.h"
 #include "render/renderer.h"
 
 #include <charconv>
@@ -21,8 +22,8 @@ static int parse_dimension(std::string_view text) {
 }
 
 static void print_usage() {
-    std::cout << "Usage: raytracer [output.ppm [width height]]\n"
-                 "Defaults: render.ppm, 640 x 360. Maximum dimension: 4096.\n";
+    std::cout << "Usage: raytracer [output.jpg [width height]]\n"
+                 "Defaults: render.jpg, 640 x 360. Maximum dimension: 4096.\n";
 }
 
 int main(int argc, char* argv[]) {
@@ -36,15 +37,17 @@ int main(int argc, char* argv[]) {
             throw std::invalid_argument("Supply an output path, or a path followed by width and height");
         }
 
-        const std::filesystem::path output = argc >= 2 ? argv[1] : "render.ppm";
+        const std::filesystem::path output = argc >= 2 ? argv[1] : "render.jpg";
         const int width = argc == 4 ? parse_dimension(argv[2]) : 640;
         const int height = argc == 4 ? parse_dimension(argv[3]) : 360;
 
         Scene scene;
         scene.add(std::make_unique<Sphere>(Vector(0, 1, 0), 1, Colour(0.75, 0.12, 0.06)));
         scene.add(std::make_unique<Plane>(Vector(0, 0, 0), Vector(0, 1, 0), Colour(0.55, 0.6, 0.48)));
+        scene.add(std::make_unique<Triangle>(Vector(1.2, 0, 0), Vector(3.2, 0, 0),
+                                              Vector(2.2, 2.4, 0), Colour(0.06, 0.25, 0.85)));
         const Camera camera(width, height, Vector(0, 1.4, 4), 2.0, 1.5);
-        save_ppm(Renderer().render(scene, camera), output);
+        save_jpeg(Renderer().render(scene, camera), output);
         std::cout << "Rendered " << width << " x " << height << " to " << output.string() << '\n';
         return 0;
     } catch (const std::exception& error) {
